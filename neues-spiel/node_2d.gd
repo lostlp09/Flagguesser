@@ -1,11 +1,36 @@
 extends Node2D
 
 var Flaggen:Array = []
-
+@onready var allbuttons:Node = $allbuttons
 @onready var imagesprite:Sprite2D = $Sprite2D
 @onready var Playbutton:Button = $plaY
+@onready var Button1:Button = $allbuttons/Flag1
+@onready var Button3:Button = $allbuttons/Flag3
+@onready var Button2:Button = $allbuttons/Flag2
+@onready var Button4:Button = $allbuttons/Flag4
+@onready var flammenzahl:Sprite2D = $allbuttons/Flame
+@onready var leavebutton:Button = $Leave
+var streak:int = 0
+var survival:bool 
 
-func on_play_pressed()->void:
+
+func randomizeflag()->void:
+	
+	if Playbutton.visible == true:
+		Playbutton.visible = false
+		Playbutton.disabled = true
+		Button1.visible = true
+		Button2.visible = true
+		Button3.visible = true
+		Button4.visible = true
+		Button1.disabled = false
+		Button2.disabled = false
+		Button3.disabled = false
+		Button4.disabled = false
+		leavebutton.visible = true
+		imagesprite.visible = true
+	
+				
 	var randomflag = Flaggen.pick_random()
 	var texture = load("res://flags_renamed_simple/" + randomflag)
 	imagesprite.texture = texture
@@ -25,20 +50,40 @@ func on_play_pressed()->void:
 			break
 		
 	selection.append(Wortohnepngname)
+	imagesprite.name = Wortohnepngname
 	
 	for i in range(0,3):
+	
 		var randomflag2 = countrynamelist.pick_random()
+		while randomflag2 == Wortohnepngname:
+			randomflag2 = countrynamelist.pick_random()
 		selection.append(randomflag2)
 		
 	selection.shuffle()
 	
 	for i in range(0,4):
-		selection[i]
+		allbuttons.get_child(i).text = selection[i]
+func Buttonpressed(button) -> void:
+	if button.text == imagesprite.name:
+		randomizeflag()
+		streak += 1 
+		flammenzahl.get_child(0).text = str(streak)
+		if streak == 1:
+			print("hallo")
+			flammenzahl.visible = true
+		else:
+			print("DOESNT WORK")
+	else:
+		streak = 0
+		flammenzahl.get_child(0).text = str(streak)
+		
+		
+		
 
 	
 
 
-			
+		
 		
 			
 		
@@ -85,10 +130,8 @@ var countrynamelist = ["Afghanistan","Anguilla","Albania","Algeria","Andorra","A
 "Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom",
 "United States","Uruguay","Uzbekistan",
 "Vanuatu","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"]
-
-
 func _ready() -> void:
-	Playbutton.pressed.connect(on_play_pressed)
+	Playbutton.pressed.connect(randomizeflag)
 	var dir = DirAccess.open("res://flags_renamed_simple")
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
@@ -97,26 +140,31 @@ func _ready() -> void:
 		if file_name.to_lower().ends_with("png"):
 			Flaggen.append(file_name) 
 		file_name = dir.get_next()
+	
+	Button1.pressed.connect(Buttonpressed.bind(Button1))
+	Button2.pressed.connect(Buttonpressed.bind(Button2))
+	Button3.pressed.connect(Buttonpressed.bind(Button3))
+	Button4.pressed.connect(Buttonpressed.bind(Button4))
 
+func _on_leave_pressed() -> void:
+	cancel1()
 
+func cancel1() -> void:
+	leavebutton.visible = false
+	streak = 0
+	flammenzahl.get_child(0).text = "zero"
+	flammenzahl.visible = false
 	
-	
-	
+	imagesprite.visible = false
+	Playbutton.visible  = true
+	Playbutton.disabled  = false
+	Button1.visible = false
+	Button1.disabled = true
+	Button2.visible = false
+	Button2.disabled = true
+	Button3.visible = false
+	Button3.disabled = true
+	Button4.visible = false
+	Button4.disabled = true
 
-
-	
-		
-		
-		
-	
-	
-		
-		
-		
-	
-	
-	
-	
-	
-
-		
+ 
