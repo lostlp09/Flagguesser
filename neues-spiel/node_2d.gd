@@ -73,7 +73,7 @@ func Buttonpressed(button) -> void:
 			flammenzahl.visible = true
 		else:
 			print("DOESNT WORK")
-	else:
+	else: 
 		streak = 0
 		flammenzahl.get_child(0).text = str(streak)
 		
