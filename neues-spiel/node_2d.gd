@@ -12,11 +12,13 @@ var Flaggen:Array = []
 @onready var leavebutton:Button = $Leave
 var streak:int = 0
 var survival:bool 
+@onready var survivalmodebutton:Button = $Surival
+
 
 
 func randomizeflag()->void:
 	
-	if Playbutton.visible == true:
+	if Playbutton.visible == true or survivalmodebutton.visible == true:
 		Playbutton.visible = false
 		Playbutton.disabled = true
 		Button1.visible = true
@@ -29,8 +31,9 @@ func randomizeflag()->void:
 		Button4.disabled = false
 		leavebutton.visible = true
 		imagesprite.visible = true
-	
-				
+		survivalmodebutton.visible = false
+		survivalmodebutton.disabled = true
+			
 	var randomflag = Flaggen.pick_random()
 	var texture = load("res://flags_renamed_simple/" + randomflag)
 	imagesprite.texture = texture
@@ -74,6 +77,10 @@ func Buttonpressed(button) -> void:
 		else:
 			print("DOESNT WORK")
 	else: 
+		if survival:
+			cancel1()
+		
+		
 		streak = 0
 		flammenzahl.get_child(0).text = str(streak)
 		
@@ -140,11 +147,13 @@ func _ready() -> void:
 		if file_name.to_lower().ends_with("png"):
 			Flaggen.append(file_name) 
 		file_name = dir.get_next()
+	print(Flaggen)
 	
 	Button1.pressed.connect(Buttonpressed.bind(Button1))
 	Button2.pressed.connect(Buttonpressed.bind(Button2))
 	Button3.pressed.connect(Buttonpressed.bind(Button3))
 	Button4.pressed.connect(Buttonpressed.bind(Button4))
+	
 
 func _on_leave_pressed() -> void:
 	cancel1()
@@ -154,7 +163,6 @@ func cancel1() -> void:
 	streak = 0
 	flammenzahl.get_child(0).text = "zero"
 	flammenzahl.visible = false
-	
 	imagesprite.visible = false
 	Playbutton.visible  = true
 	Playbutton.disabled  = false
@@ -166,5 +174,16 @@ func cancel1() -> void:
 	Button3.disabled = true
 	Button4.visible = false
 	Button4.disabled = true
+	survivalmodebutton.visible = true
+	survivalmodebutton.disabled = false
+	survival = false
+	
+	
 
  
+
+
+func _on_surival_pressed() -> void:
+	survival = true
+	randomizeflag()
+	

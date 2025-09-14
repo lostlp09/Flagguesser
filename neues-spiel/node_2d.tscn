@@ -15,17 +15,19 @@ offset_left = -328.0
 offset_top = -80.0
 offset_right = -107.0
 offset_bottom = 42.0
+scale = Vector2(0.994794, 1)
 theme_override_font_sizes/font_size = 71
 text = "Learn"
 
 [node name="Surival" type="Button" parent="."]
-visible = false
 offset_left = 136.0
 offset_top = -80.0
 offset_right = 357.0
 offset_bottom = 42.0
+scale = Vector2(0.994794, 1)
 theme_override_font_sizes/font_size = 71
-text = "Learn"
+text = "Survival
+"
 
 [node name="Leave" type="Button" parent="."]
 visible = false
@@ -86,9 +88,10 @@ theme_override_font_sizes/font_size = 316
 text = "0"
 
 [connection signal="pressed" from="plaY" to="." method="_on_pla_y_pressed"]
+[connection signal="pressed" from="Surival" to="." method="_on_surival_pressed"]
 [connection signal="pressed" from="Surival" to="." method="_on_pla_y_pressed"]
-[connection signal="pressed" from="Leave" to="." method="_on_pla_y_pressed"]
 [connection signal="pressed" from="Leave" to="." method="_on_leave_pressed"]
+[connection signal="pressed" from="Leave" to="." method="_on_pla_y_pressed"]
 [connection signal="pressed" from="allbuttons/Flag1" to="." method="_on_flag_1_pressed"]
 [connection signal="pressed" from="allbuttons/Flag3" to="." method="_on_flag_3_pressed"]
 [connection signal="pressed" from="allbuttons/Flag2" to="." method="_on_flag_2_pressed"]
